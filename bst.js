@@ -28,6 +28,28 @@ class Tree {
 		return node;
 	}
 
+	includes(array, value) {
+		if (array.includes(value)) {
+			return true;
+		}
+		return false;
+	}
+
+	insertNode(node, value) {
+		if (node == null) {
+			node = new Node(value);
+		} else if (value < node.data) {
+			node.left = this.insertNode(node.left, value);
+		} else if (value > node.data) {
+			node.right = this.insertNode(node.right, value);
+		}
+		return node;
+	}
+
+	insert(value) {
+		this.root = this.insertNode(this.root, value);
+	}
+
 	prettyPrint(node = this.root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
@@ -41,4 +63,6 @@ class Tree {
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 3, 5]);
 
+tree.prettyPrint();
+tree.insert(22);
 tree.prettyPrint();
