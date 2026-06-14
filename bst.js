@@ -50,6 +50,53 @@ class Tree {
 		this.root = this.insertNode(this.root, value);
 	}
 
+	deleteItemNode(node, value) {
+		if (node === null) {
+			return node;
+		}
+
+		if (node.data > value) {
+			node.left = this.deleteItemNode(node.left, value);
+		} else if (node.data < value) {
+			node.right = this.deleteItemNode(node.right, value);
+		} else {
+			if (node.left === null) {
+				return node.right;
+			}
+			if (node.right === null) {
+				return node.left;
+			}
+		}
+		return node;
+	}
+
+	deleteItem(value) {
+		this.root = this.deleteItemNode(this.root, value);
+	}
+
+	levelOrderForEach(callback) {
+		if (this.root === null) return;
+		const queue = [];
+		queue.push(this.root);
+
+		if (!callback) {
+			throw new Error("Error Message");
+		}
+
+		while (queue.length !== 0) {
+			const node = queue.shift();
+			callback(node.data);
+
+			if (node.left !== null) {
+				queue.push(node.left);
+			}
+
+			if (node.right !== null) {
+				queue.push(node.right);
+			}
+		}
+	}
+
 	prettyPrint(node = this.root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
@@ -66,3 +113,8 @@ const tree = new Tree([1, 7, 4, 23, 8, 9, 3, 5]);
 tree.prettyPrint();
 tree.insert(22);
 tree.prettyPrint();
+tree.deleteItem(23);
+tree.prettyPrint();
+tree.levelOrderForEach((value) => {
+	console.log(value);
+});
