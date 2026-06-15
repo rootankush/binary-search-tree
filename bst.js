@@ -97,6 +97,42 @@ class Tree {
 		}
 	}
 
+	preOrderForEachNode(node, callback) {
+		if (node === null) return;
+		callback(node.data);
+		this.preOrderForEachNode(node.left, callback);
+		this.preOrderForEachNode(node.right, callback);
+	}
+
+	preOrderForEach(callback) {
+		const node = this.root;
+		this.preOrderForEachNode(node, callback);
+	}
+
+	inOrderForEachNode(node, callback) {
+		if (node === null) return;
+		this.inOrderForEachNode(node.left, callback);
+		callback(node.data);
+		this.inOrderForEachNode(node.right, callback);
+	}
+
+	inOrderForEach(callback) {
+		const node = this.root;
+		this.inOrderForEachNode(node, callback);
+	}
+
+	postOrderForEachNode(node, callback) {
+		if (node === null) return;
+		this.postOrderForEachNode(node.left, callback);
+		this.postOrderForEachNode(node.right, callback);
+		callback(node.data);
+	}
+
+	postOrderForEach(callback) {
+		const node = this.root;
+		this.postOrderForEachNode(node, callback);
+	}
+
 	prettyPrint(node = this.root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
@@ -111,10 +147,19 @@ class Tree {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 3, 5]);
 
 tree.prettyPrint();
-tree.insert(22);
-tree.prettyPrint();
-tree.deleteItem(23);
-tree.prettyPrint();
-tree.levelOrderForEach((value) => {
+// tree.insert(22);
+// tree.prettyPrint();
+// tree.deleteItem(23);
+// tree.prettyPrint();
+// tree.levelOrderForEach((value) => {
+// 	console.log(value);
+// });
+tree.preOrderForEach((value) => {
+	console.log(value);
+});
+tree.inOrderForEach((value) => {
+	console.log(value);
+});
+tree.postOrderForEach((value) => {
 	console.log(value);
 });
