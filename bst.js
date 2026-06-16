@@ -133,6 +133,31 @@ class Tree {
 		this.postOrderForEachNode(node, callback);
 	}
 
+	findNode(node, value) {
+		if (node === null) return;
+		if (value === node.data) {
+			return node;
+		} else if (value < node.data) {
+			return this.findNode(node.left, value);
+		} else {
+			return this.findNode(node.right, value);
+		}
+	}
+
+	calculateHeight(node) {
+		if (node === null) return -1;
+		const leftHeight = this.calculateHeight(node.left);
+		const rightHeight = this.calculateHeight(node.right);
+		return Math.max(leftHeight, rightHeight) + 1;
+	}
+
+	height(value) {
+		const node = this.findNode(this.root, value);
+
+		if (node === null) return;
+		return this.calculateHeight(node);
+	}
+
 	prettyPrint(node = this.root, prefix = "", isLeft = true) {
 		if (node === null) return;
 
@@ -153,13 +178,14 @@ tree.prettyPrint();
 // tree.prettyPrint();
 // tree.levelOrderForEach((value) => {
 // 	console.log(value);
+// // });
+// tree.preOrderForEach((value) => {
+// 	console.log(value);
 // });
-tree.preOrderForEach((value) => {
-	console.log(value);
-});
-tree.inOrderForEach((value) => {
-	console.log(value);
-});
-tree.postOrderForEach((value) => {
-	console.log(value);
-});
+// tree.inOrderForEach((value) => {
+// 	console.log(value);
+// });
+// tree.postOrderForEach((value) => {
+// 	console.log(value);
+// });
+console.log(tree.height(5));
