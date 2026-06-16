@@ -154,8 +154,46 @@ class Tree {
 	height(value) {
 		const node = this.findNode(this.root, value);
 
-		if (node === null) return;
+		if (node === null) return undefined;
 		return this.calculateHeight(node);
+	}
+
+	depth(value) {
+		let counter = 0;
+		let node = this.root;
+		while (node) {
+			if (node.data === value) {
+				return counter;
+			}
+			if (value < node.data) {
+				node = node.left;
+			} else {
+				node = node.right;
+			}
+			counter++;
+		}
+		return undefined;
+	}
+
+	isBalanced(node = this.root) {
+		if (node === null) return true;
+		const leftHeight = this.calculateHeight(node.left);
+		const rightHeight = this.calculateHeight(node.right);
+		if (Math.abs(leftHeight - rightHeight) <= 1) {
+			return this.isBalanced(node.left) && this.isBalanced(node.right);
+		}
+		return false;
+	}
+
+	rebalance() {
+		if (this.isBalanced()) {
+			return;
+		}
+		const sortedArray = [];
+		this.inOrderForEach((value) => {
+			sortedArray.push(value);
+		});
+		this.root = this.buildTree(sortedArray, 0, sortedArray.length - 1);
 	}
 
 	prettyPrint(node = this.root, prefix = "", isLeft = true) {
@@ -169,9 +207,11 @@ class Tree {
 	}
 }
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 3, 5]);
+module.exports = Tree;
 
-tree.prettyPrint();
+// const tree = new Tree([1, 7, 4, 23, 8, 9, 3, 5]);
+
+// tree.prettyPrint();
 // tree.insert(22);
 // tree.prettyPrint();
 // tree.deleteItem(23);
@@ -188,4 +228,3 @@ tree.prettyPrint();
 // tree.postOrderForEach((value) => {
 // 	console.log(value);
 // });
-console.log(tree.height(5));
